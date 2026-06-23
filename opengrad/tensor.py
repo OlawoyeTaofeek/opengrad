@@ -97,7 +97,7 @@ class Tensor:
         out = Tensor(self.data @ other.data, (self, other), '@')
 
         def _backward():
-            self.grad += out.grad @ np.swapaxes(other.data, -1, -2)
+            self.grad += out.grad @ np.swapaxes(other.data, -1, -2) 
             other.grad += np.swapaxes(self.data, -1, -2) @ out.grad
         out._backward = _backward
         return out
@@ -268,3 +268,17 @@ class Tensor:
 
     def zero_grad(self):
         self.grad = np.zeros_like(self.data)
+
+def topological_sort(node):
+    visited = set()
+    order = []
+
+    def dfs(v):
+        if v not in visited:
+            visited.add(v)
+            for parent in v._parents:  # go deeper first
+                dfs(parent)
+            order.append(v)  # add AFTER visiting children
+
+    dfs(node)
+    return reversed(order)  # reverse = back to front

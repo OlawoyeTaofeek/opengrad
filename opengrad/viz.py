@@ -42,8 +42,8 @@ def draw_graph(root, show_values=True, rankdir='LR'):
         uid = str(id(n))
         label = f"shape {n.data.shape}"
         if show_values:
-            label += f"\ndata: {_format_tensor(n)}"
-            label += f"\ngrad: {_format_tensor(type(n)(n.grad))}"
+            label += f"| \ndata: {_format_tensor(n)}"
+            label += f"| \ngrad: {_format_tensor(type(n)(n.grad))}"
         dot.node(name=uid, label=label, shape='record')
         if n._op:
             op_uid = uid + n._op
